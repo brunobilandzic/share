@@ -1,0 +1,1 @@
+Auth practice for NextJS
