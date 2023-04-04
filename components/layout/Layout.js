@@ -48,7 +48,9 @@ export default function Layout({ children }) {
             title="Error"
             content={<div>{error.message}</div>}
             onCancel={() => dispatch(clearError())}
-          />
+          >
+            <div className="py-5 text-lg ">{error.message}</div>
+          </Modal>
         ) : (
           children
         )}

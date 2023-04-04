@@ -11,7 +11,7 @@ export const errorSlice = createSlice({
   reducers: {
     setError: (state, action) => {
       state.hasError = true;
-      state.message = action.payload.message;
+      state.message = action.payload;
     },
     clearError: () => initialState,
   },
