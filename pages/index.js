@@ -22,19 +22,27 @@ export default function Home() {
   if (session) {
     return (
       <div className="flex flex-col">
-        <button onClick={sendRequest}>Send request</button>
+        <div className="btn" onClick={sendRequest}>
+          Send request
+        </div>
         Signed in as {session.user.email}
-        <button onClick={() => signOut()}>Sign out</button>
-        <button onClick={sendRestrictedRequest}>Send restricted request</button>
-        <Link href="/restrictedpage">Restricred page</Link>
+        <div className="btn" onClick={() => signOut()}>
+          Sign out
+        </div>
+        <div className="btn" onClick={sendRestrictedRequest}>
+          Send restricted request
+        </div>
+        <Link href="/authorizedpage">
+          <div className="btn">Authorized page</div>
+        </Link>
       </div>
     );
   } else
     return (
       <div className="flex flex-col">
-        <button onClick={sendRequest}>Send request</button>
-        Not signed in
-        <button onClick={() => signIn()}>Sign in</button>
+        <Link href="/authorizedpage"><div className="btn">Authorized page</div></Link>
+        <div className="btn" onClick={sendRequest}>Send request</div>
+        <div className="btn" onClick={() => signIn()}>Sign in</div>
       </div>
     );
 }

@@ -7,8 +7,8 @@ export default function Loading() {
   return (
     <div>
       {isLoading && (
-        <div className="absolute z-50 flex items-center justify-center w-full h-screen bg-blue-800">
-          <Image src="loading.svg" alt="loading" width={100} height={100} />
+        <div className="absolute z-50 flex items-center justify-center w-full h-screen bg-background-default dark:bg-background-dark">
+          <Image src="loading.svg" alt="loading" width={50} height={50} />
         </div>
       )}
     </div>

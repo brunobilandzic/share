@@ -9,6 +9,9 @@ import { signIn, signOut } from "next-auth/react";
 import { removeUser } from "../../../redux/slices/userSlice";
 import { useRouter } from "next/router";
 import styles from "./navbar.module.css";
+import DarkModeSwitch from "../DarkMode/DarkModeSwitch";
+import { VscChromeClose } from "react-icons/vsc";
+import { VscMenu } from "react-icons/vsc";
 
 export default function NavbarComponent() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -27,21 +30,22 @@ export default function NavbarComponent() {
             item.display != "Logout" ? (
               <Link
                 className={`${
-                  activeRoute.includes(item.path) && styles.active
+                  activeRoute.includes(item.path) &&
+                  "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark cursor-default"
                 } p-3 ${styles.linkItem}`}
                 key={i}
-                href={item.path}>
+                href={item.path}
+                onClick={() => setIsNavOpen(false)}>
                 {item.display}
               </Link>
             ) : (
               <button
-                className={`${
-                  activeRoute.includes(item.path) && styles.active
-                } p-3 ${styles.linkItem}`}
+                className={`p-3 ${styles.linkItem}`}
                 key={i}
                 onClick={() => {
                   dispatch(removeUser());
                   signOut();
+                  setIsNavOpen(false);
                   router.push("/");
                 }}>
                 {item.display}
@@ -55,7 +59,10 @@ export default function NavbarComponent() {
               return (
                 <button
                   key={i}
-                  onClick={signIn}
+                  onClick={() => {
+                    signIn();
+                    setIsNavOpen(false);
+                  }}
                   className={`p-3 ${styles.linkItem}`}>
                   {item.display}
                 </button>
@@ -64,9 +71,11 @@ export default function NavbarComponent() {
               return (
                 <Link
                   className={`${
-                    activeRoute.includes(item.path) && styles.active
+                    activeRoute.includes(item.path) &&
+                    "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark cursor-default"
                   } p-3 ${styles.linkItem}`}
                   key={i}
+                  onClick={() => setIsNavOpen(false)}
                   href={item.path}>
                   {item.display}
                 </Link>
@@ -76,7 +85,7 @@ export default function NavbarComponent() {
   return (
     <div className="mb-10 navbar">
       <div className="relative flex items-center justify-between p-4">
-        <Link href="/">
+        <Link href="/" onClick={() => setIsNavOpen(false)}>
           <Image
             className="cursor-pointer logo"
             src="/images/bmw.png"
@@ -90,10 +99,11 @@ export default function NavbarComponent() {
           />
         </Link>
         <div className="flex items-center justify-end">
+          <DarkModeSwitch />
           {isLoggedIn && (
-            <div className="flex items-center mr-5 space-x-2 lg:mr-0">
+            <div className="flex items-center mr-5 space-x-2 text-sm font-thin lg:mr-0">
               {/* image */}
-              <span className="text-gray-600">{user.userInfo.name}</span>
+              <span className="">{user.userInfo.name}</span>
             </div>
           )}
           <nav>
@@ -104,34 +114,21 @@ export default function NavbarComponent() {
 
           <div className="lg:hidden">
             {isNavOpen ? (
-              <svg
-                className="w-8 h-8 text-gray-600 cursor-pointer"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                onClick={() => setIsNavOpen((prev) => !prev)}>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            ) : (
-              <div
-                className="flex flex-col space-y-2 cursor-pointer hamburger"
-                onClick={() => setIsNavOpen((prev) => !prev)}>
-                <span className="block h-0.5 w-8 bg-gray-600"></span>
-                <span className="block h-0.5 w-8 bg-gray-600"></span>
-                <span className="block h-0.5 w-8 bg-gray-600"></span>
+              <div className="text-2xl cursor-pointer f hover:text-background-ligherDark ">
+                <VscChromeClose onClick={() => setIsNavOpen((prev) => !prev)} />
               </div>
+            ) : (
+                 <div className="text-2xl cursor-pointer f hover:text-background-ligherDark ">
+                  <VscMenu onClick={() => setIsNavOpen((prev) => !prev)} className="text-2xl cursor-pointer hover:text-bold" />
+                  </div>
             )}
           </div>
         </div>
       </div>
       {
         <ul
-          className={`flex flex-col transition duration-200 lg:hidden ease-in-out space-y-7 mt-2 ${
-            isNavOpen ? "opacity-100 relative" : "opacity-0 absolute"
+          className={`transition duration-200 lg:hidden ease-in-out space-y-7 mt-2 ${
+            isNavOpen ? "flex flex-col" : "hidden"
           } pl-5 `}>
           {getNavlinks()}
         </ul>

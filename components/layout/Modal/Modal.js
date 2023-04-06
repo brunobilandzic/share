@@ -1,29 +1,46 @@
 import React from "react";
 import Backdrop from "./Backdrop";
 import styles from "./modal.module.css";
-import { MdOutlineCancel } from "react-icons/md";
+import { FaRegTimesCircle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { clearError } from "../../../redux/slices/errorSlice";
 
-export default function Modal({ title, children, onCancel }) {
+export default function Modal({ title, children, onCancel, footer }) {
   return (
     <div>
       <Backdrop onCancel={onCancel} />
-      <div className={`${styles.modal} rounded-lg`}>
-        <div className="flex justify-between px-3 py-5 bg-red-200 p">
+      <div className={`${styles.modal} dark:text-text-default`}>
+        <div className="flex items-center justify-between pb-4 mb-3 text-2xl border-b border-b-black">
           <div className="font-bold">{title}</div>
-          <MdOutlineCancel
-            className="text-2xl text-red-900 cursor-pointer hover:text-red-700"
-            onClick={onCancel}
-          />
+          <FaRegTimesCircle onClick={onCancel} className="-mb-2 cursor-pointer hover:text-red-500" />
         </div>
-        <div className="px-3">{children}</div>
-        <div className={`${styles.footer} flex justify-end pr-2`}>
-          <button
-            className="px-1 py-2 m-1 font-semibold text-red-900 border-red-900 hover:text-red-600"
-            onClick={onCancel}>
-            Cancel
-          </button>
-        </div>
+        <div>{children}</div>
+        <div>{footer}</div>
       </div>
     </div>
   );
 }
+
+export const ErrorModal = () => {
+  const error = useSelector((state) => state.error);
+  const dispatch = useDispatch();
+
+  return (
+    <>
+      <Modal
+        title="An error occurred!"
+        footer={
+          <div className={`${styles.footer}`}>
+            <button
+              className="btn close-modal-btn"
+              onClick={() => dispatch(clearError())}>
+              Okay
+            </button>
+          </div>
+        }
+        onCancel={() => dispatch(clearError())}>
+        <p>{error.message}</p>
+      </Modal>
+    </>
+  );
+};

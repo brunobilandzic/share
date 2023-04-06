@@ -10,8 +10,19 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        background: {
+          default: "#e9e2e2",
+          dark: "#1a1a1a",
+          lighterDark: "#bababa",
+        },
+        text: {
+          default: "#1a1a1a",
+          dark: "#e9e2e2",
+        },
+      },
     },
   },
   plugins: [],
+  darkMode: "class",
 };
