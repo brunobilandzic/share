@@ -2,13 +2,19 @@ import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa";
 import { useTheme } from "next-themes";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function DarkModeSwitch() {
-  const { theme, setTheme } = useTheme();
+  const { systemTheme, theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const currentTheme = theme === "system" ? systemTheme : theme;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="mx-3 text-lg cursor-pointer">
-      {theme === "dark" ? (
+      {mounted && currentTheme === "dark" ? (
         <FaSun
           className="text-yellow-200 hover:text-yellow-500"
           onClick={() => setTheme("light")}
