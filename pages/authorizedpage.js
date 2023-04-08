@@ -1,19 +1,19 @@
 import { getSession, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setError } from "../redux/slices/errorSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
 
 export default function Authorizedpage({ articles }) {
-  const session = useSession()
+  const session = useSession();
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!session.data) {
       dispatch(setError("You are not authorized to view this page"));
-      router.push("/");  
+      router.push("/");
     }
   }, [session]);
 

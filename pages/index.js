@@ -41,6 +41,7 @@ export default function Home() {
     return (
       <div className="flex flex-col">
         <Link href="/authorizedpage"><div className="btn">Authorized page</div></Link>
+        <Link href="/items"><div className="btn">Items</div></Link>
         <div className="btn" onClick={sendRequest}>Send request</div>
         <div className="btn" onClick={() => signIn()}>Sign in</div>
       </div>

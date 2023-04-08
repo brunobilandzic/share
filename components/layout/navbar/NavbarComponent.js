@@ -31,7 +31,7 @@ export default function NavbarComponent() {
               <Link
                 className={`${
                   activeRoute.includes(item.path) &&
-                  "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark cursor-default"
+                  "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark"
                 } p-3 ${styles.linkItem}`}
                 key={i}
                 href={item.path}
@@ -72,7 +72,7 @@ export default function NavbarComponent() {
                 <Link
                   className={`${
                     activeRoute.includes(item.path) &&
-                    "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark cursor-default"
+                    "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark"
                   } p-3 ${styles.linkItem}`}
                   key={i}
                   onClick={() => setIsNavOpen(false)}

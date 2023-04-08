@@ -13,6 +13,11 @@ export const navList = [
   },
   {
     roles: [AUTHORIZED],
+    path: "/items",
+    display: "Items",
+  },
+  {
+    roles: [AUTHORIZED],
     path: "/logout",
     display: "Logout",
   },

@@ -42,15 +42,12 @@ export default function Layout({ children }) {
   return (
     <div>
       <Loading />
+      <ErrorModal />
       <ThemeProvider attribute="class">
         <div className="min-h-screen duration-300 transform-colors bg-background-default dark:bg-background-dark text-text-default dark:text-text-dark">
           <NavbarComponent />
 
-          {error.hasError ? (
-            <ErrorModal />
-          ) : (
-            <div className="w-full max-w-6xl mx-auto">{children}</div>
-          )}
+          <div className="w-full max-w-6xl mx-auto">{children}</div>
         </div>
       </ThemeProvider>
     </div>
