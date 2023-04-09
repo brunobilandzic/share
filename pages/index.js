@@ -14,7 +14,7 @@ export default function Home() {
 
   const sendRequest = async () => {
     dispatch(setLoading());
-    const response = await axios.get("https://api.artic.edu/api/v1/artworks");
+    const response = await axios.get("/api/auth/getuser");
     console.log(response.data);
     dispatch(breakLoading());
   };

@@ -4,6 +4,7 @@ const reservationObject = {
   date: { type: Date, required: true },
   returnDate: { type: Date, required: true },
   returned: { type: Boolean, default: false },
+  createdAt: { type: Date, default: () => Date.now() },
 };
 
 module.exports =
