@@ -43,7 +43,6 @@ export default function NavbarComponent() {
                 className={`p-3 ${styles.linkItem}`}
                 key={i}
                 onClick={() => {
-                  dispatch(removeUser());
                   signOut();
                   setIsNavOpen(false);
                   router.push("/");

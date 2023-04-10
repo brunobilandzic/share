@@ -1,6 +1,8 @@
+import mongoose from "mongoose";
+
 const reservationObject = {
   item: { type: mongoose.Types.ObjectId, ref: "Item" },
-  user: { type: mongoose.Types.ObjectId, ref: "User" },
+  user: { type: mongoose.Types.ObjectId, ref: "AppUser" },
   date: { type: Date, required: true },
   returnDate: { type: Date, required: true },
   returned: { type: Boolean, default: false },

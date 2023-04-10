@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../lib/mongoDb";
-import { getOrCreateUser } from "../../../lib/auth";
+import { getOrCreateUser } from "../../../lib/usersLib";
 
 export const authOptions = {
   // Configure one or more authentication providers

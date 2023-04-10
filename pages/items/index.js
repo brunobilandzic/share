@@ -3,31 +3,39 @@ import { CreateNewButton } from "../../components/item/CreateItemComponent";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { getAllItems } from "../../lib/itemsLib";
+import { AUTH_ERROR, FETCH_ERROR } from "../../constants/errorTypes";
 
 export default function ItemsMainPage({ items }) {
-  const session = useSession();
-  const router = useRouter();
   const dispatch = useDispatch();
+  const session = useSession();
 
   useEffect(() => {
     if (!session.data) {
-      dispatch(setError("You are not authorized to view this page"));
-      router.push("/");
+      dispatch(
+        setError({
+          message: "You are not authorized to view this page",
+          type: AUTH_ERROR,
+        })
+      );
     }
   }, [session]);
 
   useEffect(() => {
-    items == null && dispatch(setError("Failed fetching items"));
-  });
-
+    items == null &&
+      dispatch(
+        setError({ message: "Failed fetching items", type: FETCH_ERROR })
+      );
+  }, [items]);
 
   return (
     <>
-      {items?.length}
-
-      <CreateNewButton />
+      {session.data  && (
+        <>
+          {items?.length}
+          <CreateNewButton />
+        </>
+      )}
     </>
   );
 }
@@ -48,7 +56,14 @@ export async function getServerSideProps(context) {
   if (!result.success) return { props: { items: null } };
 
   const items = result.items.map((item) => ({
-    id: item._id.toString(),
+    id: item._id?.toString() || null,
+    name: item.name,
+    description: item.description,
+    available: item.available,
+    createdAt: item.createdAt?.toString() || null,
+    reservations: item.reservations,
+    holder: item.holder?.toString() || null,
+    createdBy: item.createdBy?.toString() || null,
   }));
 
   return {

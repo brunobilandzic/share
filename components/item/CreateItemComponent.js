@@ -1,7 +1,11 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
-import Modal from "../layout/Modal/Modal";
+import { useDispatch } from "react-redux";
+import { setError } from "../../redux/slices/errorSlice";
+import { CREATION_ERROR } from "../../constants/errorTypes";
+import { breakLoading, setLoading } from "../../redux/slices/loadingSlice";
+import { setNotify } from "../../redux/slices/notifySlice";
 
 const initialState = {
   name: "",
@@ -13,16 +17,27 @@ const initialState = {
 
 export default function CreateItemComponent() {
   const [item, setItem] = useState(initialState);
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setItem({ ...item, [name]: value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(item);
-    const res = await axios.post("/api/items/create", item);
-    console.log(res);
-    setItem(initialState);
+    let res;
+    dispatch(setLoading());
+    try {
+      res = await axios.post("/api/items/create", item);
+      dispatch(breakLoading());
+      dispatch(setNotify({ message: `You've created ${item.name}`, title: "Success" }))
+      setItem(initialState);
+    } catch (error) {
+      dispatch(
+        setError({ message: error.response.data.message, type: CREATION_ERROR })
+      );
+    } finally {
+      dispatch(breakLoading());
+    }
   };
 
   return (

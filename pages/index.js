@@ -14,7 +14,7 @@ export default function Home() {
 
   const sendRequest = async () => {
     dispatch(setLoading());
-    const response = await axios.get("/api/auth/getuser");
+    const response = await axios.get("/api/users/all");
     console.log(response.data);
     dispatch(breakLoading());
   };

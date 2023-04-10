@@ -5,7 +5,7 @@ const userObject = {
   email: { type: String, required: true, unique: true },
   image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
-  created: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
+  createdItems: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
   holding: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
   reservations: [{ type: mongoose.Types.ObjectId, ref: "Reservation" }],
 };
