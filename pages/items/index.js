@@ -5,6 +5,7 @@ import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
 import { getAllItems } from "../../lib/itemsLib";
 import { AUTH_ERROR, FETCH_ERROR } from "../../constants/errorTypes";
+import ItemThumbnail from "../../components/item/Item";
 
 export default function ItemsMainPage({ items }) {
   const dispatch = useDispatch();
@@ -21,18 +22,11 @@ export default function ItemsMainPage({ items }) {
     }
   }, [session]);
 
-  useEffect(() => {
-    items == null &&
-      dispatch(
-        setError({ message: "Failed fetching items", type: FETCH_ERROR })
-      );
-  }, [items]);
-
   return (
     <>
-      {session.data  && (
+      {session.data && (
         <>
-          {items?.length}
+          {items && items.map((item) => <ItemThumbnail {...item} />)}
           <CreateNewButton />
         </>
       )}
@@ -53,7 +47,9 @@ export async function getServerSideProps(context) {
 
   const result = await getAllItems();
 
-  if (!result.success) return { props: { items: null } };
+  console.log(result)
+
+  if (!result.success) return { notFound: true };
 
   const items = result.items.map((item) => ({
     id: item._id?.toString() || null,

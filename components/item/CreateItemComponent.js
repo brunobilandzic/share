@@ -29,7 +29,9 @@ export default function CreateItemComponent() {
     try {
       res = await axios.post("/api/items/create", item);
       dispatch(breakLoading());
-      dispatch(setNotify({ message: `You've created ${item.name}`, title: "Success" }))
+      dispatch(
+        setNotify({ message: `You've created ${item.name}`, title: "Success" })
+      );
       setItem(initialState);
     } catch (error) {
       dispatch(
@@ -59,6 +61,7 @@ export default function CreateItemComponent() {
         <button className="btn" onClick={handleSubmit}>
           Submit
         </button>
+        <AllItemsButton />
       </form>
     </>
   );
@@ -68,6 +71,14 @@ export function CreateNewButton() {
   return (
     <Link href="/items/create">
       <div className="btn">Create new</div>
+    </Link>
+  );
+}
+
+export function AllItemsButton() {
+  return (
+    <Link href="/items">
+      <div className="btn">All items</div>
     </Link>
   );
 }
