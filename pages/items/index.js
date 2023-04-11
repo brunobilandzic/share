@@ -47,8 +47,6 @@ export async function getServerSideProps(context) {
 
   const result = await getAllItems();
 
-  console.log(result)
-
   if (!result.success) return { notFound: true };
 
   const items = result.items.map((item) => ({

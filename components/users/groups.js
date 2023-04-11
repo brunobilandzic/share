@@ -70,3 +70,11 @@ export function CreateNewGroup() {
     </form>
   );
 }
+
+export function GroupThumbnail({ name, id }) {
+  return (
+    <Link href={`/groups/${id}`}>
+      <div className="btn">{name}</div>
+    </Link>
+  );
+}
