@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { getItemById } from "../../lib/itemsLib";
-import { AllItemsButton } from "../../components/item/CreateItemComponent";
+import { AllItemsButton } from "../../components/item/Item";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { AUTH_ERROR, FETCH_ERROR } from "../../constants/errorTypes";

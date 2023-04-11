@@ -11,6 +11,7 @@ const itemObject = {
   reservations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reservation" }],
   holder: { type: mongoose.Schema.Types.ObjectId, ref: "AppUser" },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "AppUser" },
+  group: { type: mongoose.Schema.Types.ObjectId, ref: "Group" },
 };
 
 const itemSchema = new mongoose.Schema(itemObject);

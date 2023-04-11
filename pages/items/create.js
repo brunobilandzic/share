@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CreateItemComponent from "../../components/item/CreateItemComponent";
+import { CreateItemComponent } from "../../components/item/Item";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { useSession } from "next-auth/react";

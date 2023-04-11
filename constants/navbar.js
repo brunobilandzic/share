@@ -7,6 +7,11 @@ export const navList = [
     display: "Public Page",
   },
   {
+    roles: [GUEST, AUTHORIZED],
+    path: "/groups",
+    display: "Groups",
+  },
+  {
     roles: [AUTHORIZED],
     path: "/authorizedpage",
     display: "Authorized Page",
@@ -24,5 +29,5 @@ export const navList = [
   {
     roles: [GUEST],
     display: "Authenticate",
-  },
+  }
 ];

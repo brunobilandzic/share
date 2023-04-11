@@ -8,6 +8,7 @@ const userObject = {
   createdItems: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
   holding: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
   reservations: [{ type: mongoose.Types.ObjectId, ref: "Reservation" }],
+  createdGroups: [{ type: mongoose.Types.ObjectId, ref: "Group" }],
 };
 
 module.exports =

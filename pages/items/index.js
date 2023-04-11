@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { CreateNewButton } from "../../components/item/CreateItemComponent";
+import { CreateNewButton } from "../../components/item/Item";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
 import { getAllItems } from "../../lib/itemsLib";
 import { AUTH_ERROR, FETCH_ERROR } from "../../constants/errorTypes";
-import ItemThumbnail from "../../components/item/Item";
+import {ItemThumbnail} from "../../components/item/Item";
 
 export default function ItemsMainPage({ items }) {
   const dispatch = useDispatch();
