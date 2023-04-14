@@ -1,4 +1,17 @@
 import mongoose from "mongoose";
+import { GROUP_MEMBER, GROUP_MODERATOR } from "../constants/roles";
+
+export const userGroupObject = {
+  groupId: { type: mongoose.Types.ObjectId, ref: "Group" },
+  role: {
+    type: String,
+    enum: [GROUP_MEMBER, GROUP_MODERATOR],
+    default: GROUP_MEMBER,
+    required: true,
+  },
+};
+
+export const userGroupSchema = new mongoose.Schema(userGroupObject);
 
 const userObject = {
   name: { type: String, required: true },
@@ -9,6 +22,7 @@ const userObject = {
   holding: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
   reservations: [{ type: mongoose.Types.ObjectId, ref: "Reservation" }],
   createdGroups: [{ type: mongoose.Types.ObjectId, ref: "Group" }],
+  groups: [userGroupSchema],
 };
 
 module.exports =

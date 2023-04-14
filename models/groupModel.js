@@ -3,7 +3,6 @@ import { GROUP_MEMBER, GROUP_MODERATOR } from "../constants/roles";
 
 export const userGroupObject = {
   userId: { type: mongoose.Types.ObjectId, ref: "AppUser" },
-  groupId: { type: mongoose.Types.ObjectId, ref: "Group" },
   role: {
     type: String,
     enum: [GROUP_MEMBER, GROUP_MODERATOR],
@@ -16,8 +15,9 @@ export const userGroupSchema = new mongoose.Schema(userGroupObject);
 
 const groupObject = {
   name: { type: String, required: true },
-  users: [userGroupObject],
+  users: [userGroupSchema],
   items: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
+  image: { type: String, required: true },
   createdBy: { type: mongoose.Types.ObjectId, ref: "AppUser" },
   createdAt: { type: Date, default: () => Date.now() },
 };

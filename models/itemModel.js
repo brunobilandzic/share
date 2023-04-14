@@ -6,7 +6,7 @@ const itemObject = {
     type: String,
     required: true,
   },
-  available: { type: Boolean, default: true },
+  image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
   reservations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reservation" }],
   holder: { type: mongoose.Schema.Types.ObjectId, ref: "AppUser" },
