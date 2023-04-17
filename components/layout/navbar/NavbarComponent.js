@@ -2,9 +2,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { navList } from "../../../constants/navbar";
 import Link from "next/link";
-
 import { useSelector } from "react-redux";
-import { GUEST, REGULAR } from "../../../constants/roles";
+import { ADMINISTRATOR, GUEST, REGULAR } from "../../../constants/roles";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import styles from "./navbar.module.css";
@@ -17,71 +16,21 @@ export default function NavbarComponent() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const user = useSelector((state) => state.user);
   const router = useRouter();
-
   const activeRoute = router.pathname;
 
-  const getNavlinks = () =>
-    isLoggedIn
-      ? navList
-          .filter((x) => x.roles.includes(REGULAR))
-          .map((item, i) =>
-            item.display != "Logout" ? (
-              <Link
-                className={`${
-                  activeRoute.includes(item.path) &&
-                  "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark"
-                } p-3 ${styles.linkItem}`}
-                key={i}
-                href={item.path}
-                onClick={() => setIsNavOpen(false)}>
-                {item.display}
-              </Link>
-            ) : (
-              <button
-                className={`p-3 ${styles.linkItem}`}
-                key={i}
-                onClick={() => {
-                  signOut();
-                  setIsNavOpen(false);
-                  router.push("/");
-                }}>
-                {item.display}
-              </button>
-            )
-          )
-      : navList
-          .filter((x) => x.roles.includes(GUEST))
-          .map((item, i) => {
-            if (item.display == "Authenticate")
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    signIn();
-                    setIsNavOpen(false);
-                  }}
-                  className={`p-3 ${styles.linkItem}`}>
-                  {item.display}
-                </button>
-              );
-            else
-              return (
-                <Link
-                  className={`${
-                    activeRoute.includes(item.path) &&
-                    "border-b-2 border-text-default dark:hover:border-text-dark dark:border-text-dark"
-                  } p-3 ${styles.linkItem}`}
-                  key={i}
-                  onClick={() => setIsNavOpen(false)}
-                  href={item.path}>
-                  {item.display}
-                </Link>
-              );
-          });
+  const getNavlinks = () => {
+    const roles = user.roles;
+    if (roles.includes(ADMINISTRATOR))
+      return getRoleNavLinks(ADMINISTRATOR, activeRoute, setIsNavOpen);
+    if (roles.includes(REGULAR))
+      return getRoleNavLinks(REGULAR, activeRoute, setIsNavOpen);
+    if (!isLoggedIn) 
+      return getRoleNavLinks(GUEST, activeRoute, setIsNavOpen);
+  };
 
   return (
-    <div className="mb-10 navbar">
-      <div className="relative flex items-center justify-between p-4">
+    <div className="">
+      <div className="relative flex items-center justify-between px-4 py-2">
         <Link href="/" onClick={() => setIsNavOpen(false)}>
           <Image
             className="cursor-pointer logo"
@@ -111,11 +60,11 @@ export default function NavbarComponent() {
 
           <div className="lg:hidden">
             {isNavOpen ? (
-              <div className="text-2xl cursor-pointer f hover:text-background-ligherDark ">
+              <div className="text-2xl cursor-pointer f hover:text-background-lighterDark">
                 <VscChromeClose onClick={() => setIsNavOpen((prev) => !prev)} />
               </div>
             ) : (
-              <div className="text-2xl cursor-pointer f hover:text-background-ligherDark ">
+              <div className="text-2xl cursor-pointer f hover:text-background-lighterDark ">
                 <VscMenu
                   onClick={() => setIsNavOpen((prev) => !prev)}
                   className="text-2xl cursor-pointer hover:text-bold"
@@ -136,3 +85,48 @@ export default function NavbarComponent() {
     </div>
   );
 }
+
+const getRoleNavLinks = (role, activeRoute, setIsNavOpen) => {
+  return (
+    <>
+      {navList
+        .filter((x, i) => x.roles.includes(role))
+        .map(
+          (item, i) =>
+            !item.logout && (
+              <Link
+                className={`${
+                  activeRoute.includes(item.path) &&
+                  "border-b-2 border-text-default dark:border-text-dark"
+                } p-3  ${styles.linkItem}`}
+                key={i}
+                onClick={() => setIsNavOpen(false)}
+                href={item.path}>
+                {" "}
+                {item.display}
+              </Link>
+            )
+        )}
+      {role != GUEST ? (
+        <button
+          className={`p-3 ${styles.linkItem}`}
+          onClick={() => {
+            signOut();
+            setIsNavOpen(false);
+            router.push("/");
+          }}>
+          Logout
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            signIn();
+            setIsNavOpen(false);
+          }}
+          className={`p-3 ${styles.linkItem}`}>
+          Auth
+        </button>
+      )}
+    </>
+  );
+};
