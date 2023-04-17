@@ -79,3 +79,11 @@ export function GroupThumbnail({ name, id }) {
     </Link>
   );
 }
+
+export function AllGroupsButton() {
+  return (
+    <Link href="/groups">
+      <div className="btn">All groups</div>
+    </Link>
+  );
+}

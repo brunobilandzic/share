@@ -93,7 +93,7 @@ const getRoleNavLinks = (role, activeRoute, setIsNavOpen) => {
         .filter((x, i) => x.roles.includes(role))
         .map(
           (item, i) =>
-            !item.logout && (
+            !item.logout && !item.auth && (
               <Link
                 className={`${
                   activeRoute.includes(item.path) &&
