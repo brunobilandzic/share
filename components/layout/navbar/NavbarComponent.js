@@ -3,10 +3,9 @@ import React, { useState } from "react";
 import { navList } from "../../../constants/navbar";
 import Link from "next/link";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { GUEST, REGULAR } from "../../../constants/roles";
 import { signIn, signOut } from "next-auth/react";
-import { removeUser } from "../../../redux/slices/userSlice";
 import { useRouter } from "next/router";
 import styles from "./navbar.module.css";
 import DarkModeSwitch from "../DarkMode/DarkModeSwitch";
@@ -16,7 +15,6 @@ import { VscMenu } from "react-icons/vsc";
 export default function NavbarComponent() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const router = useRouter();
 
@@ -117,9 +115,12 @@ export default function NavbarComponent() {
                 <VscChromeClose onClick={() => setIsNavOpen((prev) => !prev)} />
               </div>
             ) : (
-                 <div className="text-2xl cursor-pointer f hover:text-background-ligherDark ">
-                  <VscMenu onClick={() => setIsNavOpen((prev) => !prev)} className="text-2xl cursor-pointer hover:text-bold" />
-                  </div>
+              <div className="text-2xl cursor-pointer f hover:text-background-ligherDark ">
+                <VscMenu
+                  onClick={() => setIsNavOpen((prev) => !prev)}
+                  className="text-2xl cursor-pointer hover:text-bold"
+                />
+              </div>
             )}
           </div>
         </div>
