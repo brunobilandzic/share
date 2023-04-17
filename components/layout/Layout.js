@@ -1,18 +1,26 @@
 import { useSession } from "next-auth/react";
 import NavbarComponent from "./navbar/NavbarComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setUser } from "../../redux/slices/userSlice";
 import { AuthModal, ErrorModal, NotifyModal } from "./Modal/Modal";
 import Loading from "./Loading/Loading";
 import { breakLoading, setLoading } from "../../redux/slices/loadingSlice";
 import { Router } from "next/router";
 import { ThemeProvider } from "next-themes";
+import axios from "axios";
 
 export default function Layout({ children }) {
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const [apiUser, setApiUser] = useState(null);
+
+  useEffect(() => {
+    if (apiUser) {
+      dispatch(setUser(apiUser));
+    }
+  }, [apiUser]);
 
   useEffect(() => {
     const start = () => {
@@ -34,8 +42,13 @@ export default function Layout({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!session || isLoggedIn) return;
-    if (!isLoggedIn) dispatch(setUser(session.user));
+    const setUser = async () => {
+      const { data } = await axios.get("/api/auth/getuser");
+      setApiUser(data);
+    };
+    if (session && !apiUser && !isLoggedIn) {
+      setUser();
+    }
   }, [session]);
 
   return (

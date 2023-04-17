@@ -1,33 +1,23 @@
-import { AUTHORIZED, GUEST } from "./roles";
+import { REGULAR, GUEST } from "./roles";
 
 export const navList = [
   {
-    roles: [GUEST, AUTHORIZED],
-    path: "/publicpage",
-    display: "Public Page",
-  },
-  {
-    roles: [GUEST, AUTHORIZED],
+    roles: [REGULAR],
     path: "/groups",
     display: "Groups",
   },
   {
-    roles: [AUTHORIZED],
-    path: "/authorizedpage",
-    display: "Authorized Page",
-  },
-  {
-    roles: [AUTHORIZED],
+    roles: [REGULAR],
     path: "/items",
     display: "Items",
   },
   {
-    roles: [AUTHORIZED],
+    roles: [REGULAR],
     path: "/logout",
     display: "Logout",
   },
   {
     roles: [GUEST],
     display: "Authenticate",
-  }
+  },
 ];

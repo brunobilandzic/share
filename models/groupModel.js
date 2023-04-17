@@ -17,7 +17,7 @@ const groupObject = {
   name: { type: String, required: true },
   users: [userGroupSchema],
   items: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
-  image: { type: String, required: true },
+  image: { type: String },
   createdBy: { type: mongoose.Types.ObjectId, ref: "AppUser" },
   createdAt: { type: Date, default: () => Date.now() },
 };

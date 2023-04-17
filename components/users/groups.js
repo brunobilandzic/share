@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setNotify } from "../../redux/slices/notifySlice";
 import { setError } from "../../redux/slices/errorSlice";
+import { CREATION_ERROR } from "../../constants/errorTypes";
 
 export default function GroupItem() {
   return <div>groups</div>;

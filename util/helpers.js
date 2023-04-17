@@ -12,14 +12,19 @@ export const isNowBetweenDates = (startDateString, endDateString) => {
 export const buildReservation = (reservationJSON) => {
   const holdDate = new Date(
     new Date(reservationJSON.createdAt).getTime() +
-    1000 * 60 * 60 * 24 * 7 * Math.random()
+      getPositiveOrNegative() * 1000 * 60 * 60 * 24 * 7 * Math.random()
   );
   const returnDate = new Date(
-    new Date(holdDate).getTime() + 1000 * 60 * 60 * 24 * Math.random())
-  
+    new Date(holdDate).getTime() + 1000 * 60 * 60 * 24 * Math.random()
+  );
+
   return {
     ...reservationJSON,
     holdDate,
     returnDate,
   };
-}
+};
+
+export const getPositiveOrNegative = () => {
+  return Math.random() < 0.5 ? -1 : 1;
+};

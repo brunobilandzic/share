@@ -26,7 +26,7 @@ export default function ItemsMainPage({ items }) {
     <>
       {session.data && (
         <>
-          {items && items.map((item) => <ItemThumbnail {...item} />)}
+          {items && items.map((item, i) => <ItemThumbnail key={i} {...item} />)}
           <CreateNewButton />
         </>
       )}
@@ -53,9 +53,15 @@ export async function getServerSideProps(context) {
     id: item._id?.toString() || null,
     name: item.name,
     description: item.description,
-    available: item.available,
+    available: item.available || false,
     createdAt: item.createdAt?.toString() || null,
-    reservations: item.reservations,
+    reservations: item.reservations?.map((reservation) => ({
+      id: reservation._id?.toString() || null,
+      holdDate: reservation.startDate?.toString() || null,
+      returnDate: reservation.returnDate?.toString() || null,
+      user: reservation.user?.toString() || null,
+      comment: reservation.comment || null,
+    })) || [],
     holder: item.holder?.toString() || null,
     createdBy: item.createdBy?.toString() || null,
   }));

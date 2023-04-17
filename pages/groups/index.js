@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { GroupThumbnail, NewGroupButton } from "../../components/users/groups";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
@@ -25,7 +25,7 @@ export default function Groups({ groups }) {
     <>
       {session.data && (
         <>
-          {groups && groups.map((group) => <GroupThumbnail {...group} />)}
+          {groups && groups.map((group, i) => <GroupThumbnail key={i} {...group} />)}
           <NewGroupButton />
         </>
       )}
@@ -50,7 +50,10 @@ export async function getServerSideProps(context) {
   const groups = result.groups.map((group) => ({
     id: group._id?.toString() || null,
     name: group.name,
-    users: group.users,
+    users: group.users.map((user) => ({
+      userId: user.userId?.toString() || null,
+      role: user.role,
+    })),
     createdBy: group.createdBy?.toString() || null,
     createdAt: group.createdAt?.toString() || null,
   }));

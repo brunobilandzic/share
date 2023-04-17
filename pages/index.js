@@ -80,9 +80,6 @@ export default function Home() {
         <div className="btn" onClick={seedReservations}>
           Seed Reservations
         </div>
-        <Link href="/authorizedpage">
-          <div className="btn">Authorized page</div>
-        </Link>
         <Link href="/items">
           <div className="btn">Items</div>
         </Link>

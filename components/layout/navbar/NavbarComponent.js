@@ -4,7 +4,7 @@ import { navList } from "../../../constants/navbar";
 import Link from "next/link";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AUTHORIZED, GUEST } from "../../../constants/roles";
+import { GUEST, REGULAR } from "../../../constants/roles";
 import { signIn, signOut } from "next-auth/react";
 import { removeUser } from "../../../redux/slices/userSlice";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ export default function NavbarComponent() {
   const getNavlinks = () =>
     isLoggedIn
       ? navList
-          .filter((x) => x.roles.includes(AUTHORIZED))
+          .filter((x) => x.roles.includes(REGULAR))
           .map((item, i) =>
             item.display != "Logout" ? (
               <Link
@@ -102,7 +102,7 @@ export default function NavbarComponent() {
           {isLoggedIn && (
             <div className="flex items-center mr-5 space-x-2 text-sm font-thin lg:mr-0">
               {/* image */}
-              <span className="">{user.userInfo.name}</span>
+              <span className="">{user.name}</span>
             </div>
           )}
           <nav>

@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../lib/mongoDb";
 import { getOrCreateUser } from "../../../lib/usersLib";
+import { ADMINISTRATOR, REGULAR } from "../../../constants/roles";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -28,6 +29,9 @@ export const authOptions = {
   },
   callbacks: {
     async signIn({ user }) {
+      user.email == "bruno.bilandzic2@gmail.com"
+        ? (user.roles = [ADMINISTRATOR, REGULAR])
+        : (user.roles = [REGULAR]);
       return await getOrCreateUser(user);
     },
   },
