@@ -35,6 +35,7 @@ export function NewGroupButton() {
 const initialGroupState = {
   name: "",
   users: [],
+  description: "",
   items: [],
 };
 
@@ -74,6 +75,13 @@ export function CreateNewGroup() {
         value={group.name}
         onChange={handleChange}
         placeholder="Group name"
+      />
+      <label htmlFor="description">Description</label>
+      <textarea
+        name="description"
+        value={group.description}
+        onChange={handleChange}
+        placeholder="Group description"
       />
       <button className="btn" type="submit">
         Create

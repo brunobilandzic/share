@@ -14,7 +14,12 @@ export default async function handler(req, res) {
     return;
   }
 
-  const result = await createItem(req.body, session.user);
+  const item = {
+    ...req.body,
+    creatorEmail: session.user.email,
+  }
+
+  const result = await createItem(item);
 
   if (!result.success) {
     return res.status(400).json({ message: result.error?.message });

@@ -43,6 +43,12 @@ export const buildItem = (itemJSON) => {
     id: itemJSON._id?.toString() || null,
     name: itemJSON.name || null,
     description: itemJSON.description || null,
+    image: itemJSON.image || null,
+    createdBy: {
+      id: itemJSON.createdBy?._id?.toString() || null,
+      name: itemJSON.createdBy?.name || null,
+      email: itemJSON.createdBy?.email || null,
+    },
     available: itemJSON.available || null,
     createdAt: itemJSON.createdAt?.toString() || null,
     reservations:
@@ -70,26 +76,29 @@ export const buildGroupForThumbnail = (group) => {
     createdAt: group.createdAt?.toString() || null,
     users: group.usersRoles?.length || 0,
   };
-}
+};
 
 export const buildGroup = (group) => {
   return {
     id: group._id?.toString() || null,
     name: group.name || null,
-    items:
-      group.items?.map((item, i) => (buildItem(item))) || null,
+    items: group.items?.map((item, i) => buildItem(item)) || null,
     description: group.description || null,
     createdAt: group.createdAt?.toString() || null,
     usersRoles:
       group.usersRoles?.map((userRole) => buildUserRole(userRole)) || null,
   };
-}
+};
 
-export const buildUserRole = userRole => {
+export const buildUserRole = (userRole) => {
   return {
     id: userRole.user?.id?.toString() || null,
     name: userRole.user?.name || null,
     role: userRole?.role || null,
     image: userRole.user?.image || null,
-  }
-}
+  };
+};
+
+export const sortByCreatedAt = (array) => {
+  return array.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+};

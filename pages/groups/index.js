@@ -5,7 +5,7 @@ import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
 import { getAllGroups } from "../../lib/usersLib";
 import { AUTH_ERROR } from "../../constants/errorTypes";
-import { buildGroupForThumbnail } from "../../util/helpers";
+import { buildGroupForThumbnail, sortByCreatedAt } from "../../util/helpers";
 
 export default function Groups({ groups }) {
   const dispatch = useDispatch();
@@ -49,7 +49,9 @@ export async function getServerSideProps(context) {
   const result = await getAllGroups();
   if (!result.success) return { notFound: true };
 
-  const groups = result.groups.map((group) => buildGroupForThumbnail(group));
+  const groups = sortByCreatedAt(
+    result.groups.map((group) => buildGroupForThumbnail(group))
+  );
 
   return {
     props: {

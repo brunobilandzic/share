@@ -12,8 +12,13 @@ export default async function handler(req, res) {
     res.status(401).json({ message: "Unauthorized" });
     return;
   }
-    
-  const result = await createGroup(req.body.name, [], session.user.email);
+
+  const group = {
+    ...req.body,
+    creatorEmail: session.user.email,
+  };
+
+  const result = await createGroup(group);
 
   if (!result.success) {
     return res.status(400).json({ message: result.error?.message });
