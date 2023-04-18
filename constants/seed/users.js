@@ -391,29 +391,35 @@ export const groupCreators = [
 
 export const groups = [
   {
-    name: "sunt officia eiusmod",
+    name: "aliqua reprehenderit ex",
+    description:
+      "cillum ex aliquip excepteur cillum minim sit culpa reprehenderit",
     createdAt:
-      "Wed Jan 18 2023 05:33:28 GMT+0100 (Central European Standard Time)",
+      "Fri May 27 2022 23:44:00 GMT+0200 (Central European Summer Time)",
   },
   {
-    name: "velit culpa eu",
+    name: "et nisi labore",
+    description: "sint laborum enim",
     createdAt:
-      "Fri Nov 25 2022 11:47:42 GMT+0100 (Central European Standard Time)",
+      "Fri Sep 30 2022 10:10:57 GMT+0200 (Central European Summer Time)",
   },
   {
-    name: "ea sit nulla",
+    name: "culpa ex quis",
+    description: "qui amet duis",
     createdAt:
-      "Sat Jan 09 2021 06:13:13 GMT+0100 (Central European Standard Time)",
+      "Thu Nov 24 2022 17:03:12 GMT+0100 (Central European Standard Time)",
   },
   {
-    name: "incididunt ullamco veniam",
+    name: "quis magna adipisicing",
+    description: "proident pariatur occaecat sint sit incididunt",
     createdAt:
-      "Mon Nov 30 2020 09:46:00 GMT+0100 (Central European Standard Time)",
+      "Sun May 23 2021 04:38:09 GMT+0200 (Central European Summer Time)",
   },
   {
-    name: "esse fugiat veniam",
+    name: "excepteur pariatur esse",
+    description: "velit dolor proident aliquip magna irure et magna mollit",
     createdAt:
-      "Tue Jun 08 2021 23:00:40 GMT+0200 (Central European Summer Time)",
+      "Fri Mar 04 2022 11:29:35 GMT+0100 (Central European Standard Time)",
   },
 ];
 

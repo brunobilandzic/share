@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { breakLoading, setLoading } from "../../redux/slices/loadingSlice";
 import { useDispatch } from "react-redux";
@@ -7,8 +7,21 @@ import { setNotify } from "../../redux/slices/notifySlice";
 import { setError } from "../../redux/slices/errorSlice";
 import { CREATION_ERROR } from "../../constants/errorTypes";
 
-export default function GroupItem() {
-  return <div>groups</div>;
+export default function Group({ group }) {
+  const { name, description, usersRoles, items } = group;
+
+  return (
+    <>
+      {group && (
+        <div className="flex flex-col space-y-4">
+          <h1 className="text-2xl">{name}</h1>
+          <p>{description}</p>
+          <p>{usersRoles?.length} users</p>
+          <p>{items?.length} items</p>
+        </div>
+      )}
+    </>
+  );
 }
 
 export function NewGroupButton() {
@@ -85,5 +98,15 @@ export function AllGroupsButton() {
     <Link href="/groups">
       <div className="btn">All groups</div>
     </Link>
+  );
+}
+
+export function GroupList({ groups }) {
+  return (
+    <div className="flex flex-col space-y-2">
+      {groups.map((group) => (
+        <GroupThumbnail key={group._id} {...group} />
+      ))}
+    </div>
   );
 }

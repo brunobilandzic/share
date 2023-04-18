@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { CreateNewButton } from "../../components/item/Item";
+import { CreateNewItemButton, ItemList } from "../../components/item/Item";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
 import { getAllItems } from "../../lib/itemsLib";
-import { AUTH_ERROR, FETCH_ERROR } from "../../constants/errorTypes";
-import {ItemThumbnail} from "../../components/item/Item";
+import { AUTH_ERROR } from "../../constants/errorTypes";
 
 export default function ItemsMainPage({ items }) {
   const dispatch = useDispatch();
@@ -26,8 +25,8 @@ export default function ItemsMainPage({ items }) {
     <>
       {session.data && (
         <>
-          {items && items.map((item, i) => <ItemThumbnail key={i} {...item} />)}
-          <CreateNewButton />
+          {items && <ItemList items={items} />}
+          <CreateNewItemButton />
         </>
       )}
     </>
@@ -51,19 +50,8 @@ export async function getServerSideProps(context) {
 
   const items = result.items.map((item) => ({
     id: item._id?.toString() || null,
-    name: item.name,
-    description: item.description,
-    available: item.available || false,
+    name: item.name || null,
     createdAt: item.createdAt?.toString() || null,
-    reservations: item.reservations?.map((reservation) => ({
-      id: reservation._id?.toString() || null,
-      holdDate: reservation.startDate?.toString() || null,
-      returnDate: reservation.returnDate?.toString() || null,
-      user: reservation.user?.toString() || null,
-      comment: reservation.comment || null,
-    })) || [],
-    holder: item.holder?.toString() || null,
-    createdBy: item.createdBy?.toString() || null,
   }));
 
   return {

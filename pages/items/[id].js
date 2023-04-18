@@ -2,18 +2,14 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { getItemById } from "../../lib/itemsLib";
-import { AllItemsButton } from "../../components/item/Item";
+import { AllItemsButton, Item } from "../../components/item/Item";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
-import { AUTH_ERROR, FETCH_ERROR } from "../../constants/errorTypes";
+import { AUTH_ERROR } from "../../constants/errorTypes";
 
-export default function SingleItem({ item }) {
+export default function SingleItemPage({ item }) {
   const session = useSession();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log(item);
-  });
 
   useEffect(() => {
     if (!session.data) {
@@ -28,7 +24,7 @@ export default function SingleItem({ item }) {
 
   return (
     <div>
-      {JSON.stringify(item)}
+      <Item item={item} />
       <br /> <AllItemsButton />{" "}
     </div>
   );
@@ -57,7 +53,14 @@ export const getServerSideProps = async (context) => {
     description: result.item.description || null,
     available: result.item.available || null,
     createdAt: result.item.createdAt?.toString() || null,
-    reservations: result.item.reservations || null,
+    reservations:
+      result.item.reservations?.map((reservation) => ({
+        id: reservation._id?.toString() || null,
+        holdDate: reservation.startDate?.toString() || null,
+        returnDate: reservation.returnDate?.toString() || null,
+        user: reservation.user?.toString() || null,
+        comment: reservation.comment || null,
+      })) || [],
     holder: result.item.holder || null,
   };
 

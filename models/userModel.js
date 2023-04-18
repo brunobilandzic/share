@@ -7,7 +7,7 @@ import {
 } from "../constants/roles";
 
 export const userGroupObject = {
-  groupId: { type: mongoose.Types.ObjectId, ref: "Group" },
+  group: { type: mongoose.Types.ObjectId, ref: "Group" },
   role: {
     type: String,
     enum: [GROUP_MEMBER, GROUP_MODERATOR],

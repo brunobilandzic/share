@@ -68,7 +68,7 @@ export function CreateItemComponent() {
   );
 }
 
-export function CreateNewButton() {
+export function CreateNewItemButton() {
   return (
     <Link href="/items/create">
       <div className="btn">Create new</div>
@@ -88,14 +88,36 @@ export function AllItemsButton() {
 export function ItemThumbnail({
   name,
   id,
-  description,
-  available,
-  reservations,
-  holder,
 }) {
   return (
     <Link href={`/items/${id}`}>
       <div className="btn">{name}</div>
     </Link>
+  );
+}
+
+export function Item({ item }) {
+  return (
+    <>
+      {item && (
+        <div className="flex flex-col space-y-3">
+          <h1 className="text-2xl">{item.name}</h1>
+          <p>{item.description}</p>
+          <p>{!item.holder ? "Available" : "Unavailable"}</p>
+          <p>Reservations: {item.reservations?.length}</p>
+         {item.holder && <p>Holder: {item.holder}</p>}
+        </div>
+      )}
+    </>
+  );
+}
+
+export function ItemList({ items }) {
+  return (
+    <div className="flex flex-col space-y-2">
+      {items.map((item) => (
+        <ItemThumbnail key={item.id} {...item} />
+      ))}
+    </div>
   );
 }
