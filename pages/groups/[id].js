@@ -5,6 +5,7 @@ import { getSession, useSession } from "next-auth/react";
 import GroupItem, { AllGroupsButton } from "../../components/users/groups";
 import { AUTH_ERROR } from "../../constants/errorTypes";
 import { getGroupById } from "../../lib/usersLib";
+import { buildGroup } from "../../util/helpers";
 
 export default function SingleGroupPage({ group }) {
   const session = useSession();
@@ -46,26 +47,7 @@ export const getServerSideProps = async (context) => {
   const result = await getGroupById(id);
   if (!result.success) return { notFound: true };
 
-  
-    console.log("group sas", result.group.usersRoles);
-
-  const group = {
-    id: result.group._id?.toString() || null,
-    name: result.group.name || null,
-    items:
-      result.group.items?.map((item, i) => ({
-        itemId: item._id?.toString() || null,
-      })) || null,
-    description: result.group.description || null,
-    createdAt: result.group.createdAt?.toString() || null,
-    usersRoles:
-      result.group.usersRoles?.map((userRole) => ({
-        id: userRole.user?.id?.toString() || null,
-        name: userRole.user?.name || null,
-        role: userRole?.role || null,
-        image: userRole.user?.image || null,
-      })) || null,
-  };
+  const group = buildGroup(result.group);
 
   return {
     props: {

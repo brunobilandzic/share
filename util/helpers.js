@@ -62,3 +62,34 @@ export const buildReservationForItem = (reservation) => {
     comment: reservation.comment || null,
   };
 };
+
+export const buildGroupForThumbnail = (group) => {
+  return {
+    id: group._id?.toString() || null,
+    name: group.name || null,
+    createdAt: group.createdAt?.toString() || null,
+    users: group.usersRoles?.length || 0,
+  };
+}
+
+export const buildGroup = (group) => {
+  return {
+    id: group._id?.toString() || null,
+    name: group.name || null,
+    items:
+      group.items?.map((item, i) => (buildItem(item))) || null,
+    description: group.description || null,
+    createdAt: group.createdAt?.toString() || null,
+    usersRoles:
+      group.usersRoles?.map((userRole) => buildUserRole(userRole)) || null,
+  };
+}
+
+export const buildUserRole = userRole => {
+  return {
+    id: userRole.user?.id?.toString() || null,
+    name: userRole.user?.name || null,
+    role: userRole?.role || null,
+    image: userRole.user?.image || null,
+  }
+}

@@ -85,7 +85,7 @@ export function CreateNewGroup() {
   );
 }
 
-export function GroupThumbnail({ name, id }) {
+export function GroupThumbnail({ name, id, users }) {
   return (
     <Link href={`/groups/${id}`}>
       <div className="btn">{name}</div>
