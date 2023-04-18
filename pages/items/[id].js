@@ -6,6 +6,7 @@ import { AllItemsButton, Item } from "../../components/item/Item";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { AUTH_ERROR } from "../../constants/errorTypes";
+import { buildItem } from "../../util/helpers";
 
 export default function SingleItemPage({ item }) {
   const session = useSession();
@@ -47,22 +48,7 @@ export const getServerSideProps = async (context) => {
   const result = await getItemById(id);
   if (!result.success) return { notFound: true };
 
-  const item = {
-    id: result.item._id?.toString() || null,
-    name: result.item.name || null,
-    description: result.item.description || null,
-    available: result.item.available || null,
-    createdAt: result.item.createdAt?.toString() || null,
-    reservations:
-      result.item.reservations?.map((reservation) => ({
-        id: reservation._id?.toString() || null,
-        holdDate: reservation.startDate?.toString() || null,
-        returnDate: reservation.returnDate?.toString() || null,
-        user: reservation.user?.toString() || null,
-        comment: reservation.comment || null,
-      })) || [],
-    holder: result.item.holder || null,
-  };
+  const item = buildItem(result.item);
 
   return {
     props: {

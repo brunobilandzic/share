@@ -28,3 +28,37 @@ export const buildReservation = (reservationJSON) => {
 export const getPositiveOrNegative = () => {
   return Math.random() < 0.5 ? -1 : 1;
 };
+
+export const buildItemForThumbnail = (item) => {
+  return {
+    id: item._id?.toString() || null,
+    name: item.name || null,
+    createdAt: item.createdAt?.toString() || null,
+    reservations: item.reservations?.length || 0,
+  };
+};
+
+export const buildItem = (itemJSON) => {
+  return {
+    id: itemJSON._id?.toString() || null,
+    name: itemJSON.name || null,
+    description: itemJSON.description || null,
+    available: itemJSON.available || null,
+    createdAt: itemJSON.createdAt?.toString() || null,
+    reservations:
+      itemJSON.reservations?.map((reservation) =>
+        buildReservationForItem(reservation)
+      ) || [],
+    holder: itemJSON.holder || null,
+  };
+};
+
+export const buildReservationForItem = (reservation) => {
+  return {
+    id: reservation._id?.toString() || null,
+    holdDate: reservation.startDate?.toString() || null,
+    returnDate: reservation.returnDate?.toString() || null,
+    user: reservation.user?.toString() || null,
+    comment: reservation.comment || null,
+  };
+};

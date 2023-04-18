@@ -5,6 +5,7 @@ import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
 import { getAllItems } from "../../lib/itemsLib";
 import { AUTH_ERROR } from "../../constants/errorTypes";
+import { buildItemForThumbnail } from "../../util/helpers";
 
 export default function ItemsMainPage({ items }) {
   const dispatch = useDispatch();
@@ -48,11 +49,7 @@ export async function getServerSideProps(context) {
 
   if (!result.success) return { notFound: true };
 
-  const items = result.items.map((item) => ({
-    id: item._id?.toString() || null,
-    name: item.name || null,
-    createdAt: item.createdAt?.toString() || null,
-  }));
+  const items = result.items.map((item) => buildItemForThumbnail(item));
 
   return {
     props: {
