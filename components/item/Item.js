@@ -1,12 +1,11 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { CREATION_ERROR } from "../../constants/errorTypes";
 import { breakLoading, setLoading } from "../../redux/slices/loadingSlice";
 import { setNotify } from "../../redux/slices/notifySlice";
-import { useSession } from "next-auth/react"
 
 const initialState = {
   name: "",
@@ -14,12 +13,14 @@ const initialState = {
   available: true,
   reservations: [],
   holder: null,
+  group: "",
 };
 
 export function CreateItemComponent() {
   const [item, setItem] = useState(initialState);
   const dispatch = useDispatch();
-  const session = useSession();
+  const user = useSelector((state) => state.user);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setItem({ ...item, [name]: value });
@@ -59,6 +60,15 @@ export function CreateItemComponent() {
           value={item.description}
           onChange={handleChange}
         />
+        <label htmlFor="group">Group</label>
+        <select name="group" value={item.group} onChange={handleChange}>
+          <option value="">Select group</option>
+          {user.joinedGroups?.map((joinedGroup) => (
+            <option key={joinedGroup.group._id}  value={joinedGroup.group._id}>
+              {joinedGroup.group.name}
+            </option>
+          ))}
+        </select>
         <button className="btn" onClick={handleSubmit}>
           Submit
         </button>
@@ -84,11 +94,7 @@ export function AllItemsButton() {
   );
 }
 
-
-export function ItemThumbnail({
-  name,
-  id,
-}) {
+export function ItemThumbnail({ name, id }) {
   return (
     <Link href={`/items/${id}`}>
       <div className="btn">{name}</div>
@@ -105,7 +111,7 @@ export function Item({ item }) {
           <p>{item.description}</p>
           <p>{!item.holder ? "Available" : "Unavailable"}</p>
           <p>Reservations: {item.reservations?.length}</p>
-         {item.holder && <p>Holder: {item.holder}</p>}
+          {item.holder && <p>Holder: {item.holder}</p>}
         </div>
       )}
     </>

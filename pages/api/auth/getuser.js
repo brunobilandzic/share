@@ -4,8 +4,10 @@ import { ADMINISTRATOR, REGULAR } from "../../../constants/roles";
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
-  console.log("session", session);
-
+  if (!session) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
   const user = await getOrCreateUser({
     ...session.user,
     roles:

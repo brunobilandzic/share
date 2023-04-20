@@ -16,6 +16,8 @@ export const userSlice = createSlice({
       state.roles = action.payload.roles;
       state.name = action.payload.name;
       state.email = action.payload.email;
+      state.id = action.payload._id;
+      state.joinedGroups = action.payload.joinedGroups;
     },
     removeUser: () => initialState,
   },

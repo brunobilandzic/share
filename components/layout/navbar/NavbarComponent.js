@@ -113,7 +113,6 @@ const getRoleNavLinks = (role, activeRoute, setIsNavOpen) => {
           onClick={() => {
             signOut();
             setIsNavOpen(false);
-            router.push("/");
           }}>
           Logout
         </button>

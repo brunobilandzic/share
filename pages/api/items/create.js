@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const item = {
     ...req.body,
     creatorEmail: session.user.email,
-  }
+  };
 
   const result = await createItem(item);
 
