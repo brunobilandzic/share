@@ -9,12 +9,34 @@ import { breakLoading, setLoading } from "../../redux/slices/loadingSlice";
 import { Router } from "next/router";
 import { ThemeProvider } from "next-themes";
 import axios from "axios";
+import io from "socket.io-client";
+
+let socket;
 
 export default function Layout({ children }) {
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const [apiUser, setApiUser] = useState(null);
+
+  useEffect(() => {
+    socketInitializer();
+    return () => {
+      socket?.disconnect();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (socket && apiUser) {
+      socket.emit("log-in", apiUser._id);
+    }
+  }, [socket, apiUser]);
+
+  const socketInitializer = async () => {
+    await axios.get("/api/socket");
+
+    socket = io();
+  };
 
   useEffect(() => {
     if (apiUser) {
@@ -60,7 +82,6 @@ export default function Layout({ children }) {
       <ThemeProvider attribute="class">
         <div className="min-h-screen duration-300 transform-colors bg-background-default dark:bg-background-dark text-text-default dark:text-text-dark">
           <NavbarComponent />
-
           <div className="w-full max-w-6xl px-2 mx-auto">{children}</div>
         </div>
       </ThemeProvider>
