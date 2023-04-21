@@ -21,6 +21,7 @@ const groupObject = {
   image: { type: String },
   createdBy: { type: mongoose.Types.ObjectId, ref: "AppUser" },
   createdAt: { type: Date, default: () => Date.now() },
+  joinGroupRequests: [{ type: mongoose.Types.ObjectId, ref: "JoinGroupRequest" }],
 };
 
 const groupSchema = new mongoose.Schema(groupObject);

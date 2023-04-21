@@ -23,7 +23,7 @@ export default function Layout({ children }) {
     socketInitializer();
     return () => {
       socket?.disconnect();
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -36,6 +36,7 @@ export default function Layout({ children }) {
     await axios.get("/api/socket");
 
     socket = io();
+    socket.on("notification", (data) => console.log(data));
   };
 
   useEffect(() => {

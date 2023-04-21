@@ -24,7 +24,7 @@ export default function SingleGroupPage({ group }) {
 
   return (
     <div>
-      <GroupItem group={group} />
+      {group && <GroupItem group={group} />}
       <AllGroupsButton />{" "}
     </div>
   );
@@ -51,7 +51,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      group
+      group,
     },
   };
 };

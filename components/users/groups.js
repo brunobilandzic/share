@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { breakLoading, setLoading } from "../../redux/slices/loadingSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setNotify } from "../../redux/slices/notifySlice";
 import { setError } from "../../redux/slices/errorSlice";
@@ -9,7 +9,7 @@ import { CREATION_ERROR } from "../../constants/errorTypes";
 import { setUser } from "../../redux/slices/userSlice";
 
 export default function Group({ group }) {
-  const { name, description, usersRoles, items } = group;
+  const { name, description, usersRoles, items, _id } = group;
 
   return (
     <>
@@ -19,6 +19,34 @@ export default function Group({ group }) {
           <p>{description}</p>
           <p>{usersRoles?.length} users</p>
           <p>{items?.length} items</p>
+          <JoinGroupButton groupId={group.id} />
+        </div>
+      )}
+    </>
+  );
+}
+
+export function JoinGroupButton({ groupId }) {
+  const joinedGroups = useSelector((state) => state.user.joinedGroups);
+
+  const joinGroup = async () => {
+    const res = await axios.post("/api/groups/join", { groupId });
+    console.log(res);
+  };
+
+  const leaveGroup = async () => {};
+
+  return (
+    <>
+      {!joinedGroups
+        ?.map((joinedGroup) => joinedGroup.group._id)
+        .includes(groupId) ? (
+        <div className="btn" onClick={joinGroup}>
+          Join Group
+        </div>
+      ) : (
+        <div className="btn" onClick={leaveGroup}>
+          Leave Group
         </div>
       )}
     </>
@@ -57,13 +85,16 @@ export function CreateNewGroup() {
         setNotify({ message: `You've created ${group.name}`, title: "Success" })
       );
       const { data } = await axios.get("/api/auth/getuser");
-      console.log(data)
+      console.log(data);
       dispatch(setUser(data));
       setGroup(initialGroupState);
     } catch (error) {
       console.log(error);
       dispatch(
-        setError({ message: error.response?.data.message, type: CREATION_ERROR })
+        setError({
+          message: error.response?.data.message,
+          type: CREATION_ERROR,
+        })
       );
     } finally {
       dispatch(breakLoading());
