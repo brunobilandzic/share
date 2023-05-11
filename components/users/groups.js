@@ -148,7 +148,7 @@ export function GroupList({ groups }) {
   return (
     <div className="flex flex-col space-y-2">
       {groups.map((group) => (
-        <GroupThumbnail key={group._id} {...group} />
+        <GroupThumbnail key={group.id} {...group} />
       ))}
     </div>
   );

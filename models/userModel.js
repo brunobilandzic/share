@@ -29,8 +29,9 @@ const userObject = {
   createdGroups: [{ type: mongoose.Types.ObjectId, ref: "Group" }],
   joinedGroups: [userGroupSchema],
   roles: [{ type: String, required: true, enum: [ADMINISTRATOR, REGULAR] }],
-  joinGroupRequestsSent: [{ type: mongoose.Types.ObjectId, ref: "JoinGroupRequest" }],
-  joinGroupRequestsReceived: [{ type: mongoose.Types.ObjectId, ref: "JoinGroupRequest" }],
+  joinGroupRequestsSent: [
+    { type: mongoose.Types.ObjectId, ref: "JoinGroupRequest" },
+  ],
   notifications: [{ type: mongoose.Types.ObjectId, ref: "Notification" }],
 };
 

@@ -19,6 +19,8 @@ module.exports = {
         text: {
           default: "#1a1a1a",
           dark: "#e9e2e2",
+          lighter: "#444444",
+          darkLighter: "#eaeaea",
         },
       },
     },

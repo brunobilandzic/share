@@ -10,6 +10,7 @@ import styles from "./navbar.module.css";
 import DarkModeSwitch from "../DarkMode/DarkModeSwitch";
 import { VscChromeClose } from "react-icons/vsc";
 import { VscMenu } from "react-icons/vsc";
+import { NotificationLIcon } from "../notifications/notifications";
 
 export default function NavbarComponent() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -47,9 +48,10 @@ export default function NavbarComponent() {
         <div className="flex items-center justify-end">
           <DarkModeSwitch />
           {isLoggedIn && (
-            <div className="flex items-center mr-5 space-x-2 text-sm font-thin lg:mr-0">
+            <div className="flex items-center mr-5 space-x-2 text-sm font-thin">
               {/* image */}
               <span className="">{user.name}</span>
+              <NotificationLIcon />
             </div>
           )}
           <nav>

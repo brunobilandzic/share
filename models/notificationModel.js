@@ -14,20 +14,17 @@ export const notificationObject = {
     type: Date,
     default: () => Date.now(),
   },
-  seenAt: {
-    type: Date,
-  },
   link: {
     type: String,
   },
   user: {
     type: mongoose.Types.ObjectId,
     ref: "AppUser",
-    },
-    type: {
-        type: String,
-        enum: Object.values(notificationTypes),
-  }
+  },
+  type: {
+    type: String,
+    enum: Object.values(notificationTypes),
+  },
 };
 
 const notificationSchema = new mongoose.Schema(notificationObject);
