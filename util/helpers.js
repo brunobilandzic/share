@@ -102,3 +102,14 @@ export const buildUserRole = (userRole) => {
 export const sortByCreatedAt = (array) => {
   return array.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 };
+
+export const buildNotification = (notification) => {
+  return {
+    id: notification._id?.toString() || null,
+    message: notification.message || null,
+    createdAt: notification.createdAt?.toString() || null,
+    read: notification.read || null,
+    link: notification.link || null,
+    text: notification.text || null,
+  };
+}
