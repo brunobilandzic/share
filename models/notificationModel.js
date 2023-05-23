@@ -25,6 +25,7 @@ export const notificationObject = {
     type: String,
     enum: Object.values(notificationTypes),
   },
+  joinGroupRequest: {type: mongoose.Types.ObjectId, ref: "JoinGroupRequest"},
 };
 
 const notificationSchema = new mongoose.Schema(notificationObject);

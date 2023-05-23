@@ -10,6 +10,7 @@ const joinGroupRequestObject = {
     enum: Object.values(requestStatus),
     default: requestStatus.PENDING,
   },
+  notifications: [{ type: mongoose.Types.ObjectId, ref: "Notification" }],
 };
 
 const joinGroupRequestSchema = new mongoose.Schema(joinGroupRequestObject);
