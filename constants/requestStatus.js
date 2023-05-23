@@ -3,3 +3,9 @@ export const requestStatus = {
   ACCEPTED: "ACCEPTED",
   REJECTED: "REJECTED",
 };
+
+export const decisionTypeConstant = {
+  ACCEPT: "ACCEPT",
+  DECLINE: "DECLINE",
+  OFF: "OFF",
+}

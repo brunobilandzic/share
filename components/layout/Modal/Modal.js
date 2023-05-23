@@ -62,7 +62,7 @@ export const AuthModal = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   useEffect(() => {
-    if (isLoggedIn && error.type == AUTH_ERROR) dispatch(clearError());
+    if (isLoggedIn) dispatch(clearError());
   }, [isLoggedIn]);
 
   return (

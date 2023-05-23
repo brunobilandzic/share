@@ -111,5 +111,22 @@ export const buildNotification = (notification) => {
     read: notification.read || null,
     link: notification.link || null,
     text: notification.text || null,
+    joinGroupRequest: buildJoinGroupRequestForNotification(
+      notification.joinGroupRequest
+    ),
   };
-}
+};
+
+export const buildJoinGroupRequestForNotification = (joinGroupRequest) => {
+  return {
+    id: joinGroupRequest._id?.toString() || null,
+    sentBy: joinGroupRequest.sentBy?.toString() || null,
+    group: joinGroupRequest.group?.toString() || null,
+    status: joinGroupRequest.status || null,
+    createdAt: joinGroupRequest.createdAt?.toString() || null,
+    notifications:
+      joinGroupRequest.notifications?.map((notification) => ({
+        id: notification._id?.toString() || null,
+      })) || null,
+  };
+};

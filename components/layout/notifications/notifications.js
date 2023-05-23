@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import Modal from "../Modal/Modal";
+import { decisionTypeConstant } from "../../../constants/requestStatus";
 
 export function NotificationLIcon() {
   const notifications = useSelector((state) => state.notifications.array);
@@ -49,7 +51,7 @@ export function NotificationsList() {
   );
 }
 
-export function NotificationItem({_id, text, seen, createdAt, user, type }) {
+export function NotificationItem({ _id, text, seen, createdAt, user, type }) {
   useEffect(() => {
     console.log(_id);
   }, []);
@@ -66,13 +68,45 @@ export function NotificationItem({_id, text, seen, createdAt, user, type }) {
   );
 }
 
-export function NotificationPage({ id, text, seen, createdAt, user, type }) {
-  useEffect(() => {
-    console.log(text);
-  }, []);
+export function NotificationPage({
+  id,
+  text,
+  seen,
+  createdAt,
+  user,
+  type,
+  joinGroupRequest,
+}) {
+  const [decisionType, setDecisionType] = useState(decisionTypeConstant.OFF);
+  console.log(joinGroupRequest)
   return (
-    <div className="flex flex-col px-4 py-2">
-      <div className="">{text}</div>
-    </div>
+    <>
+      <Modal
+        isOpen={decisionType != decisionTypeConstant.OFF}
+        title="Approve Request"
+        onCancel={() => setDecisionType(decisionTypeConstant.OFF)}
+        footer={
+          <>
+            <button className="mr-2 btn" >
+              Confirm
+            </button>
+          </>
+        }>
+        Are you sure in your choice?
+      </Modal>
+      <div className="flex flex-col px-4 py-2">
+        <div className="">{text}</div>
+        {joinGroupRequest && (
+          <div className="flex mt-3 space-x-3">
+            <button
+              className="btn"
+              onClick={() => setDecisionType(decisionTypeConstant.ACCEPT)}>
+              Accept
+            </button>
+            <button onClick={() => setDecisionType(decisionTypeConstant.DECLINE)} className="btn-danger">Decline</button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
