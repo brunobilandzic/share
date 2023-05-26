@@ -15,14 +15,14 @@ export const userGroupSchema = new mongoose.Schema(userGroupObject);
 
 const groupObject = {
   name: { type: String, required: true },
-  usersRoles: [{ type: userGroupSchema }],
+  usersRoles: [{ type: userGroupSchema, default: [] }],
   description: { type: String },
-  items: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
+  items: [{ type: mongoose.Types.ObjectId, ref: "Item", default: [] }],
   image: { type: String },
   createdBy: { type: mongoose.Types.ObjectId, ref: "AppUser" },
   createdAt: { type: Date, default: () => Date.now() },
   joinGroupRequests: [
-    { type: mongoose.Types.ObjectId, ref: "JoinGroupRequest" },
+    { type: mongoose.Types.ObjectId, ref: "JoinGroupRequest", default: [] },
   ],
 };
 

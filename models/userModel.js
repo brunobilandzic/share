@@ -24,15 +24,29 @@ const userObject = {
   image: { type: String },
   createdAt: { type: Date, default: () => Date.now() },
   createdItems: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
-  holding: [{ type: mongoose.Types.ObjectId, ref: "Item" }],
-  reservations: [{ type: mongoose.Types.ObjectId, ref: "Reservation" }],
-  createdGroups: [{ type: mongoose.Types.ObjectId, ref: "Group" }],
-  joinedGroups: [userGroupSchema],
-  roles: [{ type: String, required: true, enum: [ADMINISTRATOR, REGULAR] }],
-  joinGroupRequestsSent: [
-    { type: mongoose.Types.ObjectId, ref: "JoinGroupRequest" },
+  holding: [{ type: mongoose.Types.ObjectId, ref: "Item", default: [] }],
+  reservations: [
+    { type: mongoose.Types.ObjectId, ref: "Reservation", default: [] },
   ],
-  notifications: [{ type: mongoose.Types.ObjectId, ref: "Notification" }],
+  createdGroups: [{ type: mongoose.Types.ObjectId, ref: "Group", default: [] }],
+  joinedGroups: [userGroupSchema],
+  roles: [
+    {
+      type: String,
+      required: true,
+      enum: [ADMINISTRATOR, REGULAR],
+      default: REGULAR,
+    },
+  ],
+  joinGroupRequestsSent: [
+    { type: mongoose.Types.ObjectId, ref: "JoinGroupRequest", default: [] },
+  ],
+  joinGroupRequestsReceived: [
+    { type: mongoose.Types.ObjectId, ref: "JoinGroupRequest", default: [] },
+  ],
+  notifications: [
+    { type: mongoose.Types.ObjectId, ref: "Notification", default: [] },
+  ],
 };
 
 module.exports =

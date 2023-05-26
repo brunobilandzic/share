@@ -85,7 +85,7 @@ export function CreateNewGroup() {
         setNotify({ message: `You've created ${group.name}`, title: "Success" })
       );
       const { data } = await axios.get("/api/auth/getuser");
-      console.log(data);
+
       dispatch(setUser(data));
       setGroup(initialGroupState);
     } catch (error) {

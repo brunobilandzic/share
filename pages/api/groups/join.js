@@ -7,7 +7,7 @@ export default async function JoinGroupHandler(req, res) {
     const session = await getSession({ req });
     if (!session) {
       res.status(401).json({ message: "You are not authorized" });
-      return;
+      return res.stats(401).json({ message: "You are not authorized" });;
     }
 
     const result = await joinGroup(

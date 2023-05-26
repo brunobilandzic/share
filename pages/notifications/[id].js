@@ -43,7 +43,7 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-    const result = await getNotificationById(id);
+  const result = await getNotificationById(id);
     
     const notification = buildNotification(result.notification);
 

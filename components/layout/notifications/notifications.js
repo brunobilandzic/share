@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "../Modal/Modal";
-import { decisionTypeConstant } from "../../../constants/requestStatus";
+import {
+  decisionTypeConstant,
+  requestStatus,
+} from "../../../constants/requestStatus";
+import axios from "axios";
+import { setError } from "../../../redux/slices/errorSlice";
+import { JOIN_GROUP_REQUEST_ERROR } from "../../../constants/errorTypes";
 
 export function NotificationLIcon() {
   const notifications = useSelector((state) => state.notifications.array);
@@ -78,7 +84,28 @@ export function NotificationPage({
   joinGroupRequest,
 }) {
   const [decisionType, setDecisionType] = useState(decisionTypeConstant.OFF);
-  console.log(joinGroupRequest)
+  const [responded, setResponded] = useState(
+    joinGroupRequest?.status != requestStatus.PENDING
+  );
+  const dispatch = useDispatch();
+  const handleDecision = async () => {
+    try {
+      const response = await axios.post("/api/groups/respond", {
+        joinGroupRequestId: joinGroupRequest.id,
+        decision: decisionType,
+      });
+      setResponded(true);
+    } catch (err) {
+      dispatch(
+        setError({
+          message: err.response.data.message,
+          type: JOIN_GROUP_REQUEST_ERROR,
+        })
+      );
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -87,7 +114,12 @@ export function NotificationPage({
         onCancel={() => setDecisionType(decisionTypeConstant.OFF)}
         footer={
           <>
-            <button className="mr-2 btn" >
+            <button
+              className="mr-2 btn"
+              onClick={() => {
+                handleDecision();
+                setDecisionType(decisionTypeConstant.OFF);
+              }}>
               Confirm
             </button>
           </>
@@ -96,14 +128,18 @@ export function NotificationPage({
       </Modal>
       <div className="flex flex-col px-4 py-2">
         <div className="">{text}</div>
-        {joinGroupRequest && (
+        {joinGroupRequest && !responded && (
           <div className="flex mt-3 space-x-3">
             <button
               className="btn"
               onClick={() => setDecisionType(decisionTypeConstant.ACCEPT)}>
               Accept
             </button>
-            <button onClick={() => setDecisionType(decisionTypeConstant.DECLINE)} className="btn-danger">Decline</button>
+            <button
+              onClick={() => setDecisionType(decisionTypeConstant.DECLINE)}
+              className="btn-danger">
+              Decline
+            </button>
           </div>
         )}
       </div>
