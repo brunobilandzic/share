@@ -58,9 +58,6 @@ export function NotificationsList() {
 }
 
 export function NotificationItem({ _id, text, seen, createdAt, user, type }) {
-  useEffect(() => {
-    console.log(_id);
-  }, []);
 
   return (
     <Link href={`/notifications/${_id}`}>

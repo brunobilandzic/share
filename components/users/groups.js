@@ -7,6 +7,9 @@ import { setNotify } from "../../redux/slices/notifySlice";
 import { setError } from "../../redux/slices/errorSlice";
 import { CREATION_ERROR } from "../../constants/errorTypes";
 import { setUser } from "../../redux/slices/userSlice";
+import Modal from "../layout/Modal/Modal";
+import { confirmTypes } from "../../constants/confirmTypes";
+import { requestStatus } from "../../constants/requestStatus";
 
 export default function Group({ group }) {
   const { name, description, usersRoles, items, _id } = group;
@@ -19,33 +22,101 @@ export default function Group({ group }) {
           <p>{description}</p>
           <p>{usersRoles?.length} users</p>
           <p>{items?.length} items</p>
-          <JoinGroupButton groupId={group.id} />
+          <JoinGroupButton groupId={group.id} name={name} />
         </div>
       )}
     </>
   );
 }
 
-export function JoinGroupButton({ groupId }) {
+export function JoinGroupButton({ groupId, name }) {
+  const [isInGroup, setIsInGroup] = useState(false);
+  const [isRequestSent, setIsRequestSent] = useState(false);
+  const [confirmText, setConfirmText] = useState(false);
+  const [confirmType, setConfirmType] = useState(confirmTypes.OFF);
   const joinedGroups = useSelector((state) => state.user.joinedGroups);
+  const [request, setRequest] = useState(null);
+  useEffect(() => {
+    if (!joinedGroups) return;
+    const inGroup = joinedGroups
+      ?.map((joinedGroup) => joinedGroup.group._id)
+      .includes(groupId);
+    setIsInGroup(inGroup);
+    const fetchStatus = async () => {
+      const res = await axios.get("/api/groups/request/status", {
+        params: { groupId },
+      });
+      if (!res.data?.request) {
+        setIsRequestSent(false);
+        setRequest(null);
+      } else {
+        setIsRequestSent(true);
+        setRequest(res.data.request);
+      }
+    };
+    fetchStatus();
+  }, [joinedGroups]);
 
   const joinGroup = async () => {
-    const res = await axios.post("/api/groups/join", { groupId });
-    console.log(res);
+    const res = await axios.post("/api/groups/request/join", { groupId });
+    setIsRequestSent(true);
   };
 
-  const leaveGroup = async () => {};
+  const leaveGroup = async () => {
+    const res = await axios.post("/api/groups/request/leave", { groupId });
+  };
+
+  const raiseModal = (type) => {
+    setConfirmType(type);
+    type === confirmTypes.JOIN
+      ? setConfirmText(`Are you sure you want to join ${name}?`)
+      : setConfirmText(`Are you sure you want to leave ${name}?`);
+  };
 
   return (
     <>
-      {!joinedGroups
-        ?.map((joinedGroup) => joinedGroup.group._id)
-        .includes(groupId) ? (
-        <div className="btn" onClick={joinGroup}>
-          Join Group
-        </div>
+      <Modal
+        isOpen={confirmType !== confirmTypes.OFF}
+        title="Confirm your choice"
+        onCancel={() => setConfirmType(confirmTypes.OFF)}
+        footer={
+          <>
+            <button
+              className="mr-2 btn"
+              onClick={() => {
+                confirmType === confirmTypes.JOIN ? joinGroup() : leaveGroup();
+                setConfirmType(confirmTypes.OFF);
+              }}>
+              Confirm
+            </button>
+          </>
+        }>
+        {confirmText}
+      </Modal>
+      {!isInGroup ? (
+        !isRequestSent ? (
+          <div
+            className="btn"
+            onClick={() => {
+              raiseModal(confirmTypes.JOIN);
+            }}>
+            Join Group
+          </div>
+        ) : (
+          <div>
+            <p>
+              Request status:{" "}
+              {request ? request?.status : requestStatus.PENDING}
+            </p>
+            {/* cancel request */}
+          </div>
+        )
       ) : (
-        <div className="btn" onClick={leaveGroup}>
+        <div
+          className="btn"
+          onClick={() => {
+            raiseModal(confirmTypes.LEAVE);
+          }}>
           Leave Group
         </div>
       )}
