@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react";
-import { getRequest, getUserId } from "../../../../lib/usersLib";
+import { getRequests, getUserId } from "../../../../lib/usersLib";
 
 export default async function requestHandler(req, res) {
   if (req.method === "GET") {
@@ -16,9 +16,9 @@ export default async function requestHandler(req, res) {
       return res.status(200).json({ message: userIdResponse.error });
     }
 
-    const response = await getRequest(groupId, userIdResponse.userId);
-    if (response.request) {
-      return res.status(200).json({ request: response.request });
+    const response = await getRequests(groupId, userIdResponse.userId);
+    if (response.requests) {
+      return res.status(200).json({ requests: response.requests });
     } else {
       return res.status(200).json({ message: response.message });
     }

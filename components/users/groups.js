@@ -35,7 +35,7 @@ export function JoinGroupButton({ groupId, name }) {
   const [confirmText, setConfirmText] = useState(false);
   const [confirmType, setConfirmType] = useState(confirmTypes.OFF);
   const joinedGroups = useSelector((state) => state.user.joinedGroups);
-  const [request, setRequest] = useState(null);
+  const [requests, setRequests] = useState(null);
   useEffect(() => {
     if (!joinedGroups) return;
     const inGroup = joinedGroups
@@ -46,12 +46,12 @@ export function JoinGroupButton({ groupId, name }) {
       const res = await axios.get("/api/groups/request/status", {
         params: { groupId },
       });
-      if (!res.data?.request) {
+      if (!res.data?.requests) {
         setIsRequestSent(false);
-        setRequest(null);
+        setRequests(null);
       } else {
         setIsRequestSent(true);
-        setRequest(res.data.request);
+        setRequests(res.data.requests);
       }
     };
     fetchStatus();
@@ -64,6 +64,9 @@ export function JoinGroupButton({ groupId, name }) {
 
   const leaveGroup = async () => {
     const res = await axios.post("/api/groups/request/leave", { groupId });
+    setIsRequestSent(false);
+    setIsInGroup(false);
+    console.log(res.data);
   };
 
   const raiseModal = (type) => {
@@ -94,7 +97,9 @@ export function JoinGroupButton({ groupId, name }) {
         {confirmText}
       </Modal>
       {!isInGroup ? (
-        !isRequestSent ? (
+        !isRequestSent ||
+        requests?.map((req) => req.status == requestStatus.PENDING).length ==
+          0 ? (
           <div
             className="btn"
             onClick={() => {
@@ -104,10 +109,7 @@ export function JoinGroupButton({ groupId, name }) {
           </div>
         ) : (
           <div>
-            <p>
-              Request status:{" "}
-              {request ? request?.status : requestStatus.PENDING}
-            </p>
+            <p>Request status: {requestStatus.PENDING}</p>
             {/* cancel request */}
           </div>
         )
