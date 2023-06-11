@@ -118,6 +118,7 @@ export const buildNotification = (notification) => {
 };
 
 export const buildJoinGroupRequestForNotification = (joinGroupRequest) => {
+  if (!joinGroupRequest) return null;
   return {
     id: joinGroupRequest._id?.toString() || null,
     sentBy: joinGroupRequest.sentBy?.toString() || null,
