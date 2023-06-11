@@ -1,8 +1,8 @@
 import { getSession } from "next-auth/react";
-import { getUserId, leaveGroup } from "../../../../lib/usersLib";
+import { leaveGroup } from "../../../../lib/groupsLib";
+import { getUserId } from "../../../../lib/usersLib";
 
 export default async function leaveHandler(req, res) {
-  console.log("in");
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method not allowed" });
     return;
@@ -19,7 +19,7 @@ export default async function leaveHandler(req, res) {
   const email = session.user.email;
   const userIdResponse = await getUserId(email);
   const result = await leaveGroup(groupId, userIdResponse.userId);
-  console.log(result);
+
   if (!result.success) {
     return res.json({ message: result.message });
   }

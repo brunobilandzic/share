@@ -1,5 +1,6 @@
 import { getSession } from "next-auth/react";
-import { getRequests, getUserId } from "../../../../lib/usersLib";
+import { getRequests } from "../../../../lib/groupsLib";
+import { getUserId } from "../../../../lib/usersLib";
 
 export default async function requestHandler(req, res) {
   if (req.method === "GET") {

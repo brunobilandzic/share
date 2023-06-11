@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react";
-import { respondToJoinGroupRequest } from "../../../lib/usersLib";
+import { respondToJoinGroupRequest } from "../../../lib/groupsLib";
 import { requestStatus } from "../../../constants/requestStatus";
 
 export default async function RespondHandler(req, res) {

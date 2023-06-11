@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react";
-import { createGroup } from "../../../lib/usersLib";
+import { createGroup } from "../../../lib/groupsLib";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

@@ -7,7 +7,7 @@ import { setNotify } from "../../redux/slices/notifySlice";
 import { setError } from "../../redux/slices/errorSlice";
 import { CREATION_ERROR } from "../../constants/errorTypes";
 import { setUser } from "../../redux/slices/userSlice";
-import Modal from "../layout/Modal/Modal";
+import Modal from "../layout/modal/Modal";
 import { confirmTypes } from "../../constants/confirmTypes";
 import { requestStatus } from "../../constants/requestStatus";
 

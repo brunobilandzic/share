@@ -5,7 +5,7 @@ import { setError } from "../../redux/slices/errorSlice";
 
 import { AUTH_ERROR } from "../../constants/errorTypes";
 import { getNotificationById } from "../../lib/notifications";
-import { NotificationPage } from "../../components/layout/notifications/notifications";
+import { NotificationPage } from "../../components/notifications/Notifications";
 import { buildNotification } from "../../util/helpers";
 
 export default function SingleNotificationPage({ notification }) {

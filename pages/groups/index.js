@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { GroupList, NewGroupButton } from "../../components/users/groups";
+import { GroupList, NewGroupButton } from "../../components/users/Groups";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
-import { getAllGroups } from "../../lib/usersLib";
+import { getAllGroups } from "../../lib/groupsLib";
 import { AUTH_ERROR } from "../../constants/errorTypes";
 import { buildGroupForThumbnail, sortByCreatedAt } from "../../util/helpers";
 

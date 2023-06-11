@@ -2,14 +2,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "../Modal/Modal";
+import Modal from "../layout/modal/Modal";
 import {
   decisionTypeConstant,
   requestStatus,
-} from "../../../constants/requestStatus";
+} from "../../constants/requestStatus";
 import axios from "axios";
-import { setError } from "../../../redux/slices/errorSlice";
-import { JOIN_GROUP_REQUEST_ERROR } from "../../../constants/errorTypes";
+import { setError } from "../../redux/slices/errorSlice";
+import { JOIN_GROUP_REQUEST_ERROR } from "../../constants/errorTypes";
 
 export function NotificationLIcon() {
   const notifications = useSelector((state) => state.notifications.array);
@@ -58,7 +58,6 @@ export function NotificationsList() {
 }
 
 export function NotificationItem({ _id, text, seen, createdAt, user, type }) {
-
   return (
     <Link href={`/notifications/${_id}`}>
       <div className="relative px-4 py-2 border-b border-text-default dark:border-text-dark">

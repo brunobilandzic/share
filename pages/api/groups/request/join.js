@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react";
-import { joinGroup } from "../../../../lib/usersLib";
+import { joinGroup } from "../../../../lib/groupsLib";
 
 export default async function JoinGroupHandler(req, res) {
   if (req.method === "POST") {

@@ -10,7 +10,7 @@ import styles from "./navbar.module.css";
 import DarkModeSwitch from "../DarkMode/DarkModeSwitch";
 import { VscChromeClose } from "react-icons/vsc";
 import { VscMenu } from "react-icons/vsc";
-import { NotificationLIcon } from "../notifications/notifications";
+import { NotificationLIcon } from "../../notifications/Notifications"
 
 export default function NavbarComponent() {
   const [isNavOpen, setIsNavOpen] = useState(false);

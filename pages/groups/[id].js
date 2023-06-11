@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setError } from "../../redux/slices/errorSlice";
 import { getSession, useSession } from "next-auth/react";
-import GroupItem, { AllGroupsButton } from "../../components/users/groups";
+import GroupItem, { AllGroupsButton } from "../../components/users/Groups";
 import { AUTH_ERROR } from "../../constants/errorTypes";
-import { getGroupById } from "../../lib/usersLib";
+import { getGroupById } from "../../lib/groupsLib";
 import { buildGroup } from "../../util/helpers";
 
 export default function SingleGroupPage({ group }) {
