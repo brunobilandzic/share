@@ -46,11 +46,12 @@ export function JoinGroupButton({ groupId, name }) {
       const res = await axios.get("/api/groups/request/status", {
         params: { groupId },
       });
-      if (!res.data?.requests) {
-        setIsRequestSent(false);
-        setRequests(null);
-      } else {
+      
+      if (res.data?.requests?.filter((req) => req.status == requestStatus.PENDING)?.length > 0) {
         setIsRequestSent(true);
+        setRequests(res.data.requests);
+      } else {
+        setIsRequestSent(false);
         setRequests(res.data.requests);
       }
     };
@@ -66,7 +67,6 @@ export function JoinGroupButton({ groupId, name }) {
     const res = await axios.post("/api/groups/request/leave", { groupId });
     setIsRequestSent(false);
     setIsInGroup(false);
-    console.log(res.data);
   };
 
   const raiseModal = (type) => {
@@ -97,9 +97,7 @@ export function JoinGroupButton({ groupId, name }) {
         {confirmText}
       </Modal>
       {!isInGroup ? (
-        !isRequestSent ||
-        requests?.map((req) => req.status == requestStatus.PENDING).length ==
-          0 ? (
+        !isRequestSent ? (
           <div
             className="btn"
             onClick={() => {

@@ -16,19 +16,21 @@ export const notificationsSlice = createSlice({
     setNotifications: (state, action) => {
       state.array = sortByCreatedAt(action.payload);
     },
-    readNotification: (state, action) => {
-      action.payload.readen.forEach((readen) => {
-        state.array.forEach((notification) => {
-          if (notification.id === readen) {
-            notification.read = true;
-          }
-        });
+    readAllNotifications: (state) => {
+      state.array.forEach((notification) => {
+        notification.seen = true;
       });
     },
+    readNotification: (state, action) => {
+      const notification = state.array.find(
+        (notification) => notification._id === action.payload
+      );
+      notification.seen = true;
+    }
   },
 });
 
-export const { setNotification, setNotifications, readNotification } =
+export const { setNotification, setNotifications, readAllNotifications } =
   notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

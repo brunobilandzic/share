@@ -10,7 +10,10 @@ import { Router } from "next/router";
 import { ThemeProvider } from "next-themes";
 import axios from "axios";
 import io from "socket.io-client";
-import { setNotification, setNotifications } from "../../redux/slices/notificationSlice";
+import {
+  setNotification,
+  setNotifications,
+} from "../../redux/slices/notificationSlice";
 
 let socket;
 
@@ -94,7 +97,7 @@ export default function Layout({ children }) {
   );
 }
 
-const getNotifications = async (dispatch) => {
+export const getNotifications = async (dispatch) => {
   const { data } = await axios.get(`/api/notifications/all`);
   const notifications = data?.notifications;
   dispatch(setNotifications(notifications));

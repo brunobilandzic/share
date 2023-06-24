@@ -9,7 +9,12 @@ import {
 } from "../../constants/requestStatus";
 import axios from "axios";
 import { setError } from "../../redux/slices/errorSlice";
-import { JOIN_GROUP_REQUEST_ERROR } from "../../constants/errorTypes";
+import {
+  JOIN_GROUP_REQUEST_ERROR,
+  NOTIFICATION_ERROR,
+} from "../../constants/errorTypes";
+import { getNotifications } from "../layout/Layout";
+import { readAllNotifications } from "../../redux/slices/notificationSlice";
 
 export function NotificationLIcon() {
   const notifications = useSelector((state) => state.notifications.array);
@@ -20,7 +25,7 @@ export function NotificationLIcon() {
   }, [notifications]);
 
   const getUnreadCount = () => {
-    return notifications?.filter((notification) => !notification.read)?.length;
+    return notifications?.filter((notification) => !notification.seen)?.length;
   };
   return (
     <Link href="/notifications">
@@ -38,15 +43,24 @@ export function NotificationLIcon() {
 
 export function NotificationsList() {
   const notifications = useSelector((state) => state.notifications.array);
-  useEffect(() => {
-    console.log(notifications);
-  }, [notifications]);
+  const dispatch = useDispatch();
+
+  const readAll = async () => {
+    const res = await axios.post("/api/notifications/readall");
+    if (res.data.error) {
+      dispatch(setError({ type: NOTIFICATION_ERROR, message: res.data.error }));
+    }
+    console.log(res.data);
+    dispatch(readAllNotifications());
+  };
 
   return (
     <div className="">
       <div className="flex justify-between px-4 py-2 border-b border-text-default dark:border-text-dark">
         <h3 className="text-lg font-semibold">Notifications</h3>
-        <button className="text-sm">Mark all as read</button>
+        <button className="text-sm" onClick={readAll}>
+          Mark all as read
+        </button>
       </div>
       <div className="pace-y-2 ">
         {notifications?.map((notification) => (
@@ -58,9 +72,18 @@ export function NotificationsList() {
 }
 
 export function NotificationItem({ _id, text, seen, createdAt, user, type }) {
+  const [className, setClassName] = useState("");
+  useEffect(() => {
+    if (!seen) {
+      setClassName("bg-background-lighterDark dark:bg-background-dark");
+    }
+  }, [seen]);
   return (
     <Link href={`/notifications/${_id}`}>
-      <div className="relative px-4 py-2 border-b border-text-default dark:border-text-dark">
+      <div
+        className={`relative px-4 py-2 border-b border-text-default dark:border-text-dark ${
+          !seen && "bg-background-lighterDark dark:bg-background-dark"
+        }`}>
         <div className="">{text}</div>
         <div className="absolute text-xs text-text-light dark:text-text-darkLighter right-2 bottom-2">
           {createdAt}
@@ -84,6 +107,25 @@ export function NotificationPage({
     joinGroupRequest?.status != requestStatus.PENDING
   );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const readNotification = async () => {
+      const response = await axios.post("/api/notifications/read", {
+        id,
+      });
+
+      if (response.data.error) {
+        return dispatch(
+          setError({
+            message: response.data.error,
+            type: NOTIFICATION_ERROR,
+          })
+        );
+      }
+      getNotifications(dispatch);
+    };
+    readNotification();
+  }, []);
   const handleDecision = async () => {
     try {
       const response = await axios.post("/api/groups/respond", {

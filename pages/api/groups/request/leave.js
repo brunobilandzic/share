@@ -18,7 +18,11 @@ export default async function leaveHandler(req, res) {
 
   const email = session.user.email;
   const userIdResponse = await getUserId(email);
-  const result = await leaveGroup(groupId, userIdResponse.userId);
+  const result = await leaveGroup(
+    groupId,
+    userIdResponse.userId,
+    res.socket.server.io
+  );
 
   if (!result.success) {
     return res.json({ message: result.message });
